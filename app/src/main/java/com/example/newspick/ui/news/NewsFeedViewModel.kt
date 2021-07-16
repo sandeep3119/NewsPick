@@ -31,7 +31,7 @@ class NewsFeedViewModel @Inject constructor(
         get() = _isValueInserted
     private val workManager = WorkManager.getInstance(application)
     private var articleToSave = BookmarkedArticle(0, null, null, null, null)
-    internal val outputWorkInfo: LiveData<List<WorkInfo>>
+    internal val outputWorkInfo: LiveData<MutableList<WorkInfo>>
         get() = workManager.getWorkInfosByTagLiveData("imageWork")
 
     private var _articles = MutableLiveData<List<Article>>()
@@ -56,6 +56,7 @@ class NewsFeedViewModel @Inject constructor(
                 roomRepository.insertArticle(articleToSave)
 
             }
+            workManager.pruneWork()
         }
     }
 

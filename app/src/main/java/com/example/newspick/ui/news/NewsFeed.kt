@@ -18,6 +18,7 @@ import com.example.newspick.adapter.NewsAdapter
 import com.example.newspick.data.model.Article
 import com.example.newspick.databinding.NewsFeedFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class NewsFeed : Fragment() {
@@ -36,22 +37,28 @@ class NewsFeed : Fragment() {
         viewModel.fetch()
         viewModel.articles.observe(viewLifecycleOwner,{
             val newsAdapter=NewsAdapter(it,viewModel)
-            binding.newsFeedViewPager.apply {
-                adapter=newsAdapter
-                orientation=ViewPager2.ORIENTATION_VERTICAL
+            if(!it.isNullOrEmpty()) {
+                binding.newsFeedViewPager.apply {
+                    adapter = newsAdapter
+                    orientation = ViewPager2.ORIENTATION_VERTICAL
+                }
             }
 
         })
         viewModel.outputWorkInfo.observe(viewLifecycleOwner,workInfoObserver())
 
+        binding.itemRefresh.setOnRefreshListener {
+            viewModel.fetch()
+            binding.itemRefresh.isRefreshing=false
+        }
     }
 
-    private fun workInfoObserver(): Observer<List<WorkInfo>> {
+    private fun workInfoObserver(): Observer<MutableList<WorkInfo>> {
         return Observer {
             if(it.isNullOrEmpty()){
                 return@Observer
             }
-     //       val workInfo= it.last
+            val workInfo=it.last()
             if(workInfo.state.isFinished){
                 val outputImageUri=workInfo.outputData.getString("IMAGE_URI")
                 if (!outputImageUri.isNullOrEmpty()){
