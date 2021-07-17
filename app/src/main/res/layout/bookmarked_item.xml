@@ -3,9 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 <LinearLayout
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 <androidx.cardview.widget.CardView
+    android:layout_margin="6dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="4dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 <LinearLayout
@@ -19,15 +23,31 @@
         android:layout_height="match_parent"
         android:src="@drawable/ic_notifications_black_24dp"/>
     <LinearLayout
+        android:padding="2dp"
         android:layout_weight="3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/bookmark_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <TextView
+            android:layout_weight="9"
+            android:textSize="12sp"
+            android:id="@+id/bookmark_title"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="Title text"/>
+            <ImageButton
+                android:id="@+id/delete_bookmark"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:backgroundTint="@color/white"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_delete_24"/>
+        </LinearLayout>
 
         <View
             android:id="@+id/divider3"
@@ -36,6 +56,7 @@
             android:background="?android:attr/listDivider" />
         <TextView
             android:id="@+id/bookmark_description"
+            android:textSize="12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

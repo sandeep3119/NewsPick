@@ -1,9 +1,6 @@
 package com.example.newspick.data.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.newspick.data.room.model.BookmarkedArticle
 import kotlinx.coroutines.flow.Flow
 
@@ -14,4 +11,7 @@ interface BookmarkedArticleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertArticle(article: BookmarkedArticle)
+
+    @Delete
+    suspend fun deleteArticle(article:BookmarkedArticle)
 }

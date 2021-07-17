@@ -26,9 +26,9 @@ class NewsFeedViewModel @Inject constructor(
 ) :
     AndroidViewModel(application) {
 
-    private val _isValueInserted = MutableLiveData<Boolean>()
-    val isValueInserted: LiveData<Boolean>
-        get() = _isValueInserted
+    private val _isWorkInProgress = MutableLiveData<Boolean>()
+    val isWorkInProgress: LiveData<Boolean>
+        get() = _isWorkInProgress
     private val workManager = WorkManager.getInstance(application)
     private var articleToSave = BookmarkedArticle(0, null, null, null, null)
     internal val outputWorkInfo: LiveData<MutableList<WorkInfo>>
@@ -38,6 +38,9 @@ class NewsFeedViewModel @Inject constructor(
     val articles: LiveData<List<Article>>
         get() = _articles
 
+    fun setWorkProgress(status:Boolean){
+        _isWorkInProgress.value=status
+    }
     fun fetch() {
         viewModelScope.launch {
             _articles.postValue(mainRepository.getArticles().articles)
@@ -57,6 +60,7 @@ class NewsFeedViewModel @Inject constructor(
 
             }
             workManager.pruneWork()
+            setWorkProgress(false)
         }
     }
 

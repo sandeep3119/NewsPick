@@ -110,8 +110,8 @@
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_bookmarks_24"
-                    app:tint="@color/design_default_color_primary_dark" />
+                    android:src="@drawable/ic_baseline_bookmarks_24"
+                    app:tint="@color/black" />
 
                 <View
                     android:id="@+id/divider2"
@@ -169,6 +169,7 @@
                         android:text="2021-07-10T15:30:00Z"
                         android:textStyle="bold" />
                 </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

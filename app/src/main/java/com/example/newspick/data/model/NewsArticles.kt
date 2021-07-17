@@ -1,6 +1,6 @@
 package com.example.newspick.data.model
 
-data class NewsArticles(val status: String , val totalResults: Long, val articles: List<Article>)
+data class NewsArticles(val status: String="ok" , val totalResults: Long=0L, val articles: List<Article> = emptyList())
 data class Article(
     val source: Source,
     val author: String,

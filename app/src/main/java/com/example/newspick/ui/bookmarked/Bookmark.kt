@@ -35,10 +35,18 @@ class Bookmark : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val bookmarkAdapter=BookmarkAdapter(viewModel)
         viewModel.bookmarkArticles.observe(viewLifecycleOwner,{
+            if(it.isNullOrEmpty()){
+                binding.emptyCard.visibility=View.VISIBLE
+            }else{
+                binding.emptyCard.visibility=View.GONE
+            }
             binding.bookmarkRecyclerView.apply {
                 layoutManager=LinearLayoutManager(activity)
-                adapter=BookmarkAdapter(it)
+                adapter=bookmarkAdapter.apply {
+                    submitList(it)
+                }
             }
         })
 

@@ -15,8 +15,8 @@ import java.util.*
 class ImageUtil {
     //Changing url to a bitmap and returning Uri
     fun getUriFromUrl(context: Context,imageUrl: String): Uri?{
-        val imageUrl=URL("$imageUrl?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
-        val bitmap=BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream())
+        val convertedImageUrl=URL("$imageUrl?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+        val bitmap=BitmapFactory.decodeStream(convertedImageUrl.openConnection().getInputStream())
 
         var savedUri:Uri?=null
         bitmap?.apply {

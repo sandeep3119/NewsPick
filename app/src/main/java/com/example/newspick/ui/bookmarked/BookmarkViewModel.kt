@@ -19,4 +19,9 @@ class BookmarkViewModel @Inject constructor(val repository: RoomRepository) : Vi
             _bookmarkArticles.postValue(repository.getAllArticles())
         }
     }
+    fun deleteBookmark(article: BookmarkedArticle){
+        viewModelScope.launch {
+            repository.deleteArticle(article)
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.newspick.ui.news
 
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,6 +19,7 @@ import com.example.newspick.R
 import com.example.newspick.adapter.NewsAdapter
 import com.example.newspick.data.model.Article
 import com.example.newspick.databinding.NewsFeedFragmentBinding
+import com.example.newspick.util.DepthPageTransformer
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -32,17 +35,24 @@ class NewsFeed : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.fetch()
+        val newsAdapter=NewsAdapter(viewModel)
         viewModel.articles.observe(viewLifecycleOwner,{
-            val newsAdapter=NewsAdapter(it,viewModel)
-            if(!it.isNullOrEmpty()) {
-                binding.newsFeedViewPager.apply {
-                    adapter = newsAdapter
-                    orientation = ViewPager2.ORIENTATION_VERTICAL
-                }
+            if (it.isNullOrEmpty()){
+                binding.errorCard.visibility=View.VISIBLE
+            }else{
+                binding.errorCard.visibility=View.GONE
             }
+                binding.newsFeedViewPager.apply {
+                    adapter = newsAdapter.apply {
+                        updateData(it)
+                    }
+                    orientation = ViewPager2.ORIENTATION_VERTICAL
+                    setPageTransformer(DepthPageTransformer())
+                }
 
         })
         viewModel.outputWorkInfo.observe(viewLifecycleOwner,workInfoObserver())
@@ -51,6 +61,14 @@ class NewsFeed : Fragment() {
             viewModel.fetch()
             binding.itemRefresh.isRefreshing=false
         }
+        viewModel.isWorkInProgress.observe(viewLifecycleOwner,{
+            if(it){
+                binding.progressBar.visibility=View.VISIBLE
+            }else if(!it){
+                binding.progressBar.visibility=View.GONE
+                Toast.makeText(activity,"Bookmarked",Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun workInfoObserver(): Observer<MutableList<WorkInfo>> {
