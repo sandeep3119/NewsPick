@@ -1,6 +1,6 @@
 # NewsPick
 ## A General Android NewsApp 
-
+![](Demo.gif)
 ## Concepts Used
 * Android MVVM Architecture.
 * Jetpack Components(Navigation).
