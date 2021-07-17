@@ -11,3 +11,5 @@
 * Work Manager for Background tasks.
 * ViewPager2
 * RecyclerViewAdapter & ListAdapter
+
+![App Demo](demo.gif)
