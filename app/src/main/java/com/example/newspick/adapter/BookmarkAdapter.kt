@@ -13,7 +13,7 @@ import com.example.newspick.databinding.BookmarkedItemBinding
 import com.example.newspick.ui.bookmarked.BookmarkViewModel
 
 class BookmarkAdapter(
-    private val viewModel: BookmarkViewModel
+    private val viewModel: BookmarkViewModel,private val clickListener:CallBackClickListener
 ) : ListAdapter<BookmarkedArticle, BookmarkAdapter.BookmarkViewHolder>(DiffUtilCallback) {
     object DiffUtilCallback : DiffUtil.ItemCallback<BookmarkedArticle>() {
         override fun areItemsTheSame(
@@ -41,7 +41,13 @@ class BookmarkAdapter(
     }
 
     override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val article=getItem(position)
+        article?.let {
+            holder.itemView.setOnClickListener {
+                clickListener.onClick(article)
+            }
+        }
+        holder.bind(article)
     }
 
     class BookmarkViewHolder(
@@ -61,11 +67,15 @@ class BookmarkAdapter(
                     .into(bookmarkImage)
                 deleteBookmark.setOnClickListener {
                     viewModel.deleteBookmark(item)
+
                 }
             }
         }
 }
 
+    class CallBackClickListener(val clickListener:(article:BookmarkedArticle)->Unit){
+        fun onClick(article: BookmarkedArticle)= clickListener(article)
+    }
 
 
 }

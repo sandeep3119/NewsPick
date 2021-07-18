@@ -1,14 +1,14 @@
 package com.example.newspick.repository
 
 import android.util.Log
-import com.example.newspick.api.ApiHelper
-import com.example.newspick.data.model.Article
+import com.example.newspick.api.ApiService
 import com.example.newspick.data.model.NewsArticles
 import javax.inject.Inject
 
-class MainRepository @Inject constructor(private val apiHelper: ApiHelper) {
+class MainRepository @Inject constructor(private val apiService: ApiService) {
     suspend fun getArticles() = runCatching {
-        apiHelper.getArticles()
+        val helper=apiService.getArticles()
+        helper
     }.getOrElse {
         Log.d("yolo",it.toString())
         NewsArticles()

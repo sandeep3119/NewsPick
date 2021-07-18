@@ -4,14 +4,9 @@ package com.example.newspick.di
 import android.content.Context
 import androidx.room.Room
 import com.example.newspick.BuildConfig
-import com.example.newspick.NewsPickApplication
-import com.example.newspick.R
-import com.example.newspick.api.ApiHelper
-import com.example.newspick.api.ApiHelperImpl
 import com.example.newspick.api.ApiService
 import com.example.newspick.data.room.AppDatabase
 import com.example.newspick.data.room.dao.BookmarkedArticleDao
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +16,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -57,9 +51,6 @@ object AppModule {
     @Singleton
     fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
 
-    @Provides
-    @Singleton
-    fun provideApiHelper(apiHelper: ApiHelperImpl): ApiHelper = apiHelper
 
     @Provides
     @Singleton
